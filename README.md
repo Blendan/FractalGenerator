@@ -2,4 +2,4 @@
 
 This programm generates Tree Fractals and you can save them as a png.
 
-![](https://github.com/Blendan/FractalGenerator/blob/master/screnshopt_fractalGenerator.png)
+![](https://raw.githubusercontent.com/Blendan/FractalGenerator/master/screnshopt_fractalGeneratorv1.2.png)
