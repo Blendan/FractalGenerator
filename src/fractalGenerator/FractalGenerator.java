@@ -12,8 +12,10 @@ public class FractalGenerator implements Runnable
 
 
 	private final Pane drawPane;
-	private int repets, startLengt;
+	private int repeats, startLength;
 	private double falloff = 0.7;
+	private double paddingBottom = 0;
+	private boolean isSetPadding = false;
 	private double deg;
 
 	FractalGenerator(Pane drawPane)
@@ -24,16 +26,23 @@ public class FractalGenerator implements Runnable
 	@Override
 	public void run()
 	{
-		System.out.println("---------------------\n\n");
 		double x = drawPane.getWidth() / 2;
-		double y = drawPane.getHeight() - startLengt;
+		double y;
+		if (isSetPadding)
+		{
+			y = drawPane.getHeight() - startLength;
+		}
+		else
+		{
+			y = drawPane.getHeight() - paddingBottom;
+		}
 		Platform.runLater(() -> drawPane.getChildren().clear());
 		int i = 0;
-		Line temp = new Line(x, y, x, y + startLengt);
+		Line temp = new Line(x, y, x, y + startLength);
 		temp.setStroke(Color.WHITE);
 		Platform.runLater(() -> drawPane.getChildren().add(temp));
 
-		Platform.runLater(() -> createFractal(startLengt * falloff, x, y, i, 0));
+		Platform.runLater(() -> createFractal(startLength * falloff, x, y, i, 0));
 	}
 
 	private void createFractal(double lengt, double x, double y, int i, int degBias)
@@ -50,7 +59,7 @@ public class FractalGenerator implements Runnable
 		temp2.setStroke(Color.WHITE);
 		drawPane.getChildren().add(temp2);
 
-		if (i < repets)
+		if (i < repeats)
 		{
 			i++;
 			Point2D transformedEnd = temp.localToScene(temp.getEndX(), temp.getEndY());
@@ -62,14 +71,14 @@ public class FractalGenerator implements Runnable
 
 	}
 
-	void setRepets(int repets)
+	void setRepeats(int repeats)
 	{
-		this.repets = repets;
+		this.repeats = repeats;
 	}
 
-	void setStartLengt(int startLengt)
+	void setStartLength(int startLength)
 	{
-		this.startLengt = startLengt;
+		this.startLength = startLength;
 	}
 
 	void setDeg(double deg)
@@ -80,5 +89,16 @@ public class FractalGenerator implements Runnable
 	void setFalloff(double falloff)
 	{
 		this.falloff = falloff;
+	}
+
+	public void setPaddingBottom(double paddingBottom)
+	{
+		this.paddingBottom = paddingBottom;
+		isSetPadding = false;
+	}
+
+	public void setSetPadding(boolean setPadding)
+	{
+		isSetPadding = setPadding;
 	}
 }

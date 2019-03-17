@@ -16,7 +16,7 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("mainGui.fxml"));
-		Parent root = (Parent) loader.load();
+		Parent root = loader.load();
 		primaryStage.setTitle("Fractal Generator");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();

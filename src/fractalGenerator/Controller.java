@@ -40,6 +40,9 @@ public class Controller implements Initializable
 	@FXML
 	private TextField inputFalloff;
 
+	@FXML
+	private TextField inputMargin;
+
 	private FractalGenerator fractalGenerator;
 	private Stage stage;
 
@@ -55,10 +58,16 @@ public class Controller implements Initializable
 	{
 		try
 		{
-			fractalGenerator.setRepets(Integer.parseInt(inputRepeats.getText()));
+			fractalGenerator.setRepeats(Integer.parseInt(inputRepeats.getText()));
 			fractalGenerator.setDeg(Integer.parseInt(inputDeg.getText()));
-			fractalGenerator.setStartLengt(Integer.parseInt(inputHeight.getText()));
+			fractalGenerator.setStartLength(Integer.parseInt(inputHeight.getText()));
 			fractalGenerator.setFalloff(Double.parseDouble(inputFalloff.getText()));
+
+			if(!inputMargin.getText().equals(""))
+			{
+				fractalGenerator.setPaddingBottom(Double.parseDouble(inputMargin.getText()));
+			}
+
 			new Thread(fractalGenerator).start();
 		}
 		catch (Exception e)
@@ -82,11 +91,11 @@ public class Controller implements Initializable
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			System.out.println("no image selected");
 		}
 	}
 
-	public void setStage(Stage stage)
+	void setStage(Stage stage)
 	{
 		this.stage = stage;
 	}
