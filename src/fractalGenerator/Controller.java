@@ -1,7 +1,5 @@
 package fractalGenerator;
 
-import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +24,11 @@ public class Controller implements Initializable
 {
 	@FXML
 	private TextField inputResMultiplier;
+
+	@FXML
 	private Label outResX;
+
+	@FXML
 	private Label outResY;
 
 	@FXML
@@ -63,17 +65,16 @@ public class Controller implements Initializable
 		btnGenerate.setOnAction((e) -> startGenerating());
 		btnSave.setOnAction(event -> saveImage());
 
-		InvalidationListener scaleFeld = (e) -> new Thread(() -> Platform.runLater(this::setScale)).start();
 
-		drawPane.heightProperty().addListener(scaleFeld);
-		drawPane.widthProperty().addListener(scaleFeld);
+		drawPane.heightProperty().addListener((e) -> this.setScale());
+		drawPane.widthProperty().addListener((e) -> this.setScale());
 		setScale();
 	}
 
 	private void setScale()
 	{
-		outResX.setText(drawPane.getWidth() + "");
-		outResY.setText(drawPane.getHeight() + "");
+		outResX.setText(Math.round(drawPane.getWidth()) + "");
+		outResY.setText(Math.round(drawPane.getHeight()) + "");
 	}
 
 	private void startGenerating()
@@ -103,7 +104,7 @@ public class Controller implements Initializable
 		try
 		{
 			int multiplier;
-			if(!inputResMultiplier.getText().equals(""))
+			if (!inputResMultiplier.getText().equals(""))
 			{
 				multiplier = Integer.parseInt(inputResMultiplier.getText());
 			}
@@ -115,7 +116,7 @@ public class Controller implements Initializable
 			SnapshotParameters snapshotParameters = new SnapshotParameters();
 			snapshotParameters.setFill(Color.BLACK);
 			snapshotParameters.setTransform(Transform.scale(multiplier, multiplier));
-			WritableImage writableImage = new WritableImage((int)Math.rint(multiplier*drawPane.getWidth()), (int)Math.rint(multiplier*drawPane.getHeight()));
+			WritableImage writableImage = new WritableImage((int) Math.rint(multiplier * drawPane.getWidth()), (int) Math.rint(multiplier * drawPane.getHeight()));
 
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
@@ -123,7 +124,7 @@ public class Controller implements Initializable
 
 			try
 			{
-				ImageIO.write(SwingFXUtils.fromFXImage(drawPane.snapshot(snapshotParameters, writableImage),null), "png", selectedFile);
+				ImageIO.write(SwingFXUtils.fromFXImage(drawPane.snapshot(snapshotParameters, writableImage), null), "png", selectedFile);
 			} catch (IOException e)
 			{
 				System.out.println("no image selected");
