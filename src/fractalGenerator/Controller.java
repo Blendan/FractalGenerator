@@ -25,9 +25,9 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable
 {
 	@FXML
-	public TextField inputResMultiplier;
-	public Label outResX;
-	public Label outResY;
+	private TextField inputResMultiplier;
+	private Label outResX;
+	private Label outResY;
 
 	@FXML
 	private Button btnGenerate;
