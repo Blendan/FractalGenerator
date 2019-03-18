@@ -103,7 +103,7 @@ public class Controller implements Initializable
 		try
 		{
 			int multiplier;
-			if(inputResMultiplier.getText().equals(""))
+			if(!inputResMultiplier.getText().equals(""))
 			{
 				multiplier = Integer.parseInt(inputResMultiplier.getText());
 			}
@@ -114,7 +114,7 @@ public class Controller implements Initializable
 
 			SnapshotParameters snapshotParameters = new SnapshotParameters();
 			snapshotParameters.setFill(Color.BLACK);
-			snapshotParameters.setTransform(Transform.scale(drawPane.getWidth()*multiplier, drawPane.getHeight()*multiplier));
+			snapshotParameters.setTransform(Transform.scale(multiplier, multiplier));
 			WritableImage writableImage = new WritableImage((int)Math.rint(multiplier*drawPane.getWidth()), (int)Math.rint(multiplier*drawPane.getHeight()));
 
 			FileChooser fileChooser = new FileChooser();
