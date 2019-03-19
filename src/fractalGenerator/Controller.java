@@ -3,7 +3,9 @@ package fractalGenerator;
 import fractalGenerator.generator.CopyGenerator;
 import fractalGenerator.generator.FractalGenerator;
 import fractalGenerator.generator.GeneratorFactory;
+import fractalGenerator.generator.GrowGenerator;
 import fractalGenerator.options.ControllerOptions;
+import fractalGenerator.shapes.SplitLineDrawer;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +46,7 @@ public class Controller implements Initializable
 	private int repeats = 4, multiplier = 1, length = 100, deg = 45, biasDeg = 45, height, width, bottom = 0;
 	private double falloff = 0.7;
 	private boolean isFirstLine = true;
+	private Class typGenerator = GrowGenerator.class, typLine = SplitLineDrawer.class;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -250,5 +253,25 @@ public class Controller implements Initializable
 	public void setFirstLine(boolean firstLine)
 	{
 		isFirstLine = firstLine;
+	}
+
+	public Class getTypLine()
+	{
+		return typLine;
+	}
+
+	public void setTypLine(Class typLine)
+	{
+		this.typLine = typLine;
+	}
+
+	public Class getTypGenerator()
+	{
+		return typGenerator;
+	}
+
+	public void setTypGenerator(Class typGenerator)
+	{
+		this.typGenerator = typGenerator;
 	}
 }

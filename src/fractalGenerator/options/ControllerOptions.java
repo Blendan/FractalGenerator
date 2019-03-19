@@ -1,10 +1,13 @@
 package fractalGenerator.options;
 
 import fractalGenerator.Controller;
+import fractalGenerator.generator.CopyGenerator;
+import fractalGenerator.generator.GrowGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -34,6 +37,8 @@ public class ControllerOptions implements Initializable
 	private TextField inputHeight;
 	@FXML
 	private TextField inputMultiplier;
+	@FXML
+	private ComboBox<DisplayClasses> boxGenerator;
 
 	private Controller controller;
 
@@ -78,6 +83,10 @@ public class ControllerOptions implements Initializable
 		inputWidth.setText(controller.getWidth() + "");
 		inputHeight.setText(controller.getHeight() + "");
 		checkIsStartLine.setSelected(controller.isFirstLine());
+
+		boxGenerator.getItems().add(new DisplayClasses(GrowGenerator.class,"Grow"));
+		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy"));
+
 	}
 
 
