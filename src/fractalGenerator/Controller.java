@@ -1,6 +1,5 @@
 package fractalGenerator;
 
-import fractalGenerator.generator.CopyGenerator;
 import fractalGenerator.generator.FractalGenerator;
 import fractalGenerator.generator.GeneratorFactory;
 import fractalGenerator.generator.GrowGenerator;
@@ -14,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -56,7 +56,6 @@ public class Controller implements Initializable
 
 		btnOptions.setOnAction(event -> startOptions());
 
-
 		drawPane.heightProperty().addListener((e) -> this.setScale());
 		drawPane.widthProperty().addListener((e) -> this.setScale());
 		setScale();
@@ -72,13 +71,14 @@ public class Controller implements Initializable
 	{
 		try
 		{
-			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane).getGenerator(CopyGenerator.class);
+			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane).getGenerator(getTypGenerator());
 			fractalGenerator.setRepeats(getRepeats());
 			fractalGenerator.setDeg(getDeg());
 			fractalGenerator.setStartLength(getLength());
 			fractalGenerator.setFalloff(falloff);
 			fractalGenerator.setFirstLine(isFirstLine);
 			fractalGenerator.setDegBias(biasDeg);
+			fractalGenerator.setTyp(getTypLine());
 
 			fractalGenerator.setPaddingBottom(bottom);
 
@@ -138,10 +138,11 @@ public class Controller implements Initializable
 		assert root != null;
 		stage.setScene(new Scene(root));
 		stage.setTitle("Options");
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
 		stage.show();
 
 		ControllerOptions temp = fxmlLoader.getController();
-		temp.setController(this);
+		temp.setController(this, stage);
 	}
 
 	public void setWindowScale(int height, int width)
@@ -200,19 +201,9 @@ public class Controller implements Initializable
 		return width;
 	}
 
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-
 	public int getHeight()
 	{
 		return height;
-	}
-
-	public void setHeight(int height)
-	{
-		this.height = height;
 	}
 
 	public double getFalloff()

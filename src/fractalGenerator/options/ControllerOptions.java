@@ -3,12 +3,16 @@ package fractalGenerator.options;
 import fractalGenerator.Controller;
 import fractalGenerator.generator.CopyGenerator;
 import fractalGenerator.generator.GrowGenerator;
+import fractalGenerator.shapes.LineDrawer;
+import fractalGenerator.shapes.SplitLineDrawer;
+import fractalGenerator.shapes.TriangleDrawer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +21,8 @@ public class ControllerOptions implements Initializable
 {
 	@FXML
 	private Button btnSave;
+	@FXML
+	private Button btnSaveAndClose;
 	@FXML
 	private TextField inputRepeats;
 	@FXML
@@ -39,6 +45,8 @@ public class ControllerOptions implements Initializable
 	private TextField inputMultiplier;
 	@FXML
 	private ComboBox<DisplayClasses> boxGenerator;
+	@FXML
+	private ComboBox<DisplayClasses> boxShape;
 
 	private Controller controller;
 
@@ -62,6 +70,9 @@ public class ControllerOptions implements Initializable
 			controller.setMultiplier(Integer.parseInt(inputMultiplier.getText()));
 			controller.setFirstLine(checkIsStartLine.isSelected());
 			controller.setRepeats(Integer.parseInt(inputRepeats.getText()));
+
+			controller.setTypGenerator(boxGenerator.getSelectionModel().getSelectedItem().getTyp());
+			controller.setTypLine(boxShape.getSelectionModel().getSelectedItem().getTyp());
 		}
 		catch (Exception e)
 		{
@@ -69,7 +80,7 @@ public class ControllerOptions implements Initializable
 		}
 	}
 
-	public void setController(Controller controller)
+	public void setController(Controller controller, Stage stage)
 	{
 		this.controller = controller;
 
@@ -85,8 +96,36 @@ public class ControllerOptions implements Initializable
 		checkIsStartLine.setSelected(controller.isFirstLine());
 
 		boxGenerator.getItems().add(new DisplayClasses(GrowGenerator.class,"Grow"));
-		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy"));
+		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy (Work in Progress)"));
 
+		int i = 0;
+		for (DisplayClasses value : boxGenerator.getItems())
+		{
+			if(value.getTyp()==controller.getTypGenerator())
+			{
+				boxGenerator.getSelectionModel().select(i);
+			}
+			i ++ ;
+		}
+
+		boxShape.getItems().add(new DisplayClasses(LineDrawer.class,"Line"));
+		boxShape.getItems().add(new DisplayClasses(SplitLineDrawer.class,"SplitLine"));
+		boxShape.getItems().add(new DisplayClasses(TriangleDrawer.class,"Triangle"));
+
+		i = 0;
+		for (DisplayClasses value : boxShape.getItems())
+		{
+			if(value.getTyp()==controller.getTypLine())
+			{
+				boxShape.getSelectionModel().select(i);
+			}
+			i ++ ;
+		}
+
+		btnSaveAndClose.setOnAction((e)->{
+			save();
+			stage.close();
+		});
 	}
 
 
