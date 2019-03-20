@@ -6,9 +6,9 @@ public class GeneratorFactory
 {
 	private final Pane feld;
 
-	public GeneratorFactory(Pane feld)
+	public GeneratorFactory(Pane field)
 	{
-		this.feld = feld;
+		this.feld = field;
 	}
 
 	public FractalGenerator getGenerator(Class typ)
@@ -16,6 +16,10 @@ public class GeneratorFactory
 		if(typ == GrowGenerator.class)
 		{
 			return new GrowGenerator(feld);
+		}
+		else if(typ == CreateGenerator.class)
+		{
+			return new CreateGenerator(feld);
 		}
 		else if(typ == CopyGenerator.class)
 		{

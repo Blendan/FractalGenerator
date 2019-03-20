@@ -2,6 +2,7 @@ package fractalGenerator.options;
 
 import fractalGenerator.Controller;
 import fractalGenerator.generator.CopyGenerator;
+import fractalGenerator.generator.CreateGenerator;
 import fractalGenerator.generator.GrowGenerator;
 import fractalGenerator.shapes.LineDrawer;
 import fractalGenerator.shapes.SplitLineDrawer;
@@ -96,7 +97,9 @@ public class ControllerOptions implements Initializable
 		checkIsStartLine.setSelected(controller.isFirstLine());
 
 		boxGenerator.getItems().add(new DisplayClasses(GrowGenerator.class,"Grow"));
-		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy (Work in Progress)"));
+		boxGenerator.getItems().add(new DisplayClasses(CreateGenerator.class,"Generate (!! Resource Heavy !!)"));
+		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy (!! Resource Heavy !! WORK IN PROGRESS)"));
+
 
 		int i = 0;
 		for (DisplayClasses value : boxGenerator.getItems())
