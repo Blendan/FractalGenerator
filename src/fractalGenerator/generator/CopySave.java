@@ -33,6 +33,7 @@ class CopySave
 		return bias;
 	}
 
+	@SuppressWarnings("unused")
 	public ArrayList<Point2D> getListPoints()
 	{
 		return listPoints;

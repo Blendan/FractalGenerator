@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
@@ -30,6 +31,9 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable
 {
 	@FXML
+	public ScrollPane scrollDraw;
+
+	@FXML
 	private Button btnOptions;
 
 	@FXML
@@ -43,7 +47,8 @@ public class Controller implements Initializable
 
 	private Stage stage;
 
-	private int repeats = 4, multiplier = 1, length = 100, deg = 45, biasDeg = 45, height, width, bottom = 0;
+	@SuppressWarnings("FieldCanBeLocal")
+	private int repeats = 4, multiplier = 1, length = 100, deg = 45, biasDeg = 45, height = 500, width = 500, bottom = 0;
 	private double falloff = 0.7;
 	private boolean isFirstLine = true;
 	private Class typGenerator = GrowGenerator.class, typLine = SplitLineDrawer.class;
@@ -55,20 +60,12 @@ public class Controller implements Initializable
 		btnSave.setOnAction(event -> saveImage());
 
 		btnOptions.setOnAction(event -> startOptions());
-
-		drawPane.heightProperty().addListener((e) -> this.setScale());
-		drawPane.widthProperty().addListener((e) -> this.setScale());
-		setScale();
-	}
-
-	private void setScale()
-	{
-		width = (int) Math.round(drawPane.getWidth());
-		height = (int) Math.round(drawPane.getHeight());
 	}
 
 	private void startGenerating()
 	{
+		scrollDraw.setVvalue(0);
+		scrollDraw.setHvalue(0);
 		try
 		{
 			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane).getGenerator(getTypGenerator());
@@ -147,8 +144,11 @@ public class Controller implements Initializable
 
 	public void setWindowScale(int height, int width)
 	{
-		stage.setHeight(height + 57 + 40);
-		stage.setWidth(width + 14);
+		drawPane.setPrefHeight(height);
+		drawPane.setPrefWidth(width);
+
+		this.height = height;
+		this.width = width;
 	}
 
 	void setStage(Stage stage)

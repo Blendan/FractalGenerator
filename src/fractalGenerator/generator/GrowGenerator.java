@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 public class GrowGenerator extends FractalGenerator
 {
 
-	public GrowGenerator(Pane drawPane)
+	GrowGenerator(Pane drawPane)
 	{
 		super(drawPane);
 	}

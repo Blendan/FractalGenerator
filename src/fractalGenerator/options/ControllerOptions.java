@@ -98,7 +98,7 @@ public class ControllerOptions implements Initializable
 
 		boxGenerator.getItems().add(new DisplayClasses(GrowGenerator.class,"Grow"));
 		boxGenerator.getItems().add(new DisplayClasses(CreateGenerator.class,"Generate (!! Resource Heavy !!)"));
-		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy (!! Resource Heavy !! WORK IN PROGRESS)"));
+		boxGenerator.getItems().add(new DisplayClasses(CopyGenerator.class,"Copy (!! Resource Heavy !!)"));
 
 
 		int i = 0;

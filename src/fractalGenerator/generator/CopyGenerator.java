@@ -5,7 +5,6 @@ import fractalGenerator.shapes.ObjectDrawer;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -15,6 +14,7 @@ public class CopyGenerator extends FractalGenerator
 	private int firstStep = 1;
 	private Point2D zero, left, right;
 	private ArrayList<CopySave> save;
+	private boolean isMorThanOne = false;
 
 	CopyGenerator(Pane drawPane)
 	{
@@ -42,23 +42,21 @@ public class CopyGenerator extends FractalGenerator
 		{
 			if (i == makePositive(bias) && bias > 0)
 			{
-				System.out.println(bias+"   "+i);
 				right = temp.getPoint(1);
-				int finalI1 = i+1;
-				Platform.runLater(() -> createCopyFractal(temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI1, bias + 1));
+				int finalI1 = i + 1;
+				Platform.runLater(() -> readyCopyFractal(false, finalI1));
 			}
 			else if (i == makePositive(bias) && bias < 0 && temp.getListPoints().size() >= 3)
 			{
-				System.out.println(bias+"   "+i);
+				isMorThanOne = true;
 				left = temp.getPoint(2);
 
-				int finalI2 = i+1;
-				Platform.runLater(() -> createCopyFractal(temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI2, bias - 1));
+				int finalI2 = i + 1;
+				Platform.runLater(() -> readyCopyFractal(true,  finalI2));
 			}
 		}
 		else if (i < repeats)
 		{
-
 			i++;
 			int finalI = i;
 			Platform.runLater(() -> createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1));
@@ -70,12 +68,41 @@ public class CopyGenerator extends FractalGenerator
 		}
 	}
 
-	private void createCopyFractal(double x, double y, int i, int bias)
+	private boolean isReadyRight = false, isReadyLeft = false;
+
+	private void readyCopyFractal(boolean isLeft, int i)
 	{
-		color = Color.RED;
+		if (isLeft)
+		{
+			isReadyLeft = true;
+		}
+		else
+		{
+			isReadyRight = true;
+		}
+
+		if (isReadyLeft && isReadyRight||!isMorThanOne&&isReadyRight)
+		{
+			isReadyLeft = false;
+			isReadyRight = false;
+
+			ArrayList<CopySave> temp = getCopy();
+
+			if(isMorThanOne)
+			{
+				Platform.runLater(() -> createCopyFractal(left.getX(), left.getY(), i + 1, -i - 1, temp));
+			}
+
+			Platform.runLater(() -> createCopyFractal(right.getX(), right.getY(), i + 1, i + 1, temp));
+		}
+
+	}
+
+	private void createCopyFractal(double x, double y, int i, int bias, ArrayList<CopySave> tempList)
+	{
 		if (i < repeats)
 		{
-			for (CopySave value : getCopy())
+			for (CopySave value : tempList)
 			{
 				ObjectDrawer temp = new DrawerFactory(x + value.getX(), y + value.getY(), value.getLength(), color, value.getDeg(), value.getDegBias(), bias + value.getBias(), drawPane).getDrawer(typ);
 				save.add(new CopySave(temp.getListPoints(), value.getLength(), value.getDeg(), value.getDegBias(), bias + value.getBias(), x + value.getX() - zero.getX(), y + value.getY() - zero.getY()));
@@ -83,14 +110,13 @@ public class CopyGenerator extends FractalGenerator
 
 			if (i == makePositive(bias) && bias < 0 && left != null)
 			{
-				System.out.println(bias+"   "+i);
 				left = new Point2D((left.getX() - zero.getX()) * 2 + zero.getX(), (left.getY() - zero.getY()) * 2 + zero.getY());
-				Platform.runLater(() -> createCopyFractal(left.getX(), left.getY(), i+1, bias - 1));
+				readyCopyFractal(true,i);
 			}
-			else if (i == makePositive(bias)&&bias > 0)
+			else if (i == makePositive(bias) && bias > 0)
 			{
 				right = new Point2D((right.getX() - zero.getX()) * 2 + zero.getX(), (right.getY() - zero.getY()) * 2 + zero.getY());
-				Platform.runLater(() -> createCopyFractal(right.getX(), right.getY(), i+1, bias + 1));
+				readyCopyFractal(false,i);
 			}
 		}
 	}
