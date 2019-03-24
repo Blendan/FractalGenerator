@@ -16,6 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Transform;
@@ -49,7 +52,7 @@ public class Controller implements Initializable
 
 	@SuppressWarnings("FieldCanBeLocal")
 	private int repeats = 4, multiplier = 1, length = 100, deg = 45, biasDeg = 45, height = 500, width = 500, bottom = 0;
-	private double falloff = 0.7;
+	private double falloff = 0.7, zoom = 1;
 	private boolean isFirstLine = true;
 	private Class typGenerator = GrowGenerator.class, typLine = SplitLineDrawer.class;
 
@@ -59,17 +62,56 @@ public class Controller implements Initializable
 		btnGenerate.setOnAction((e) -> startGenerating());
 		btnSave.setOnAction(event -> saveImage());
 
-		btnOptions.setOnAction(event -> startOptions());
+		/*btnOptions.setOnAction(event -> startOptions());
+		scrollDraw.setOnScroll(this::zoom);
+		scrollDraw.setPannable(true);*/
 	}
+
+
+	private void zoom(ScrollEvent event)
+	{
+		event.consume();
+
+		if (event.isControlDown())
+		{
+			if (event.getDeltaY() < 0)
+			{
+				zoom -= 0.1;
+			}
+			else if (event.getDeltaY() > 0)
+			{
+				zoom += 0.1;
+			}
+
+			if(zoom<0.1)
+			{
+				zoom = 0.1;
+			}
+
+			setZoom();
+		}
+	}
+
+	private void setZoom()
+	{
+		drawPane.setScaleX(zoom);
+		drawPane.setScaleY(zoom);
+	}
+
 
 	private void startGenerating()
 	{
 		scrollDraw.setVvalue(0);
 		scrollDraw.setHvalue(0);
 		scrollDraw.setContent(null);
+
+		zoom = 1;
+
+		setZoom();
+
 		try
 		{
-			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane,scrollDraw).getGenerator(getTypGenerator());
+			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane, scrollDraw).getGenerator(getTypGenerator());
 			fractalGenerator.setRepeats(getRepeats());
 			fractalGenerator.setDeg(getDeg());
 			fractalGenerator.setStartLength(getLength());
@@ -81,8 +123,7 @@ public class Controller implements Initializable
 			fractalGenerator.setPaddingBottom(bottom);
 
 			new Thread(fractalGenerator).start();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			System.out.println("input error");
 		}
@@ -105,13 +146,11 @@ public class Controller implements Initializable
 			try
 			{
 				ImageIO.write(SwingFXUtils.fromFXImage(drawPane.snapshot(snapshotParameters, writableImage), null), "png", selectedFile);
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				System.out.println("no image selected");
 			}
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -125,8 +164,7 @@ public class Controller implements Initializable
 		try
 		{
 			root = fxmlLoader.load();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
