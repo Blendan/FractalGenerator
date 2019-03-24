@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class SplitLineDrawer extends ObjectDrawer
 {
 
-	public SplitLineDrawer(double x, double y, double length, Color color, double deg, double degBias, int bias, Pane drawPane)
+	SplitLineDrawer(double x, double y, double length, Color color, double deg, double degBias, int bias, Pane drawPane)
 	{
 		super(x, y, length, color, deg, degBias, bias, drawPane);
 	}

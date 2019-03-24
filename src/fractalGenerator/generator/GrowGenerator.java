@@ -3,14 +3,15 @@ package fractalGenerator.generator;
 import fractalGenerator.shapes.DrawerFactory;
 import fractalGenerator.shapes.ObjectDrawer;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 public class GrowGenerator extends FractalGenerator
 {
 
-	GrowGenerator(Pane drawPane)
+	GrowGenerator(Pane field, ScrollPane scrollDraw)
 	{
-		super(drawPane);
+		super(field, scrollDraw);
 	}
 
 	@Override

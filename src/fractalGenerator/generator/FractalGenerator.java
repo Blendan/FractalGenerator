@@ -2,6 +2,7 @@ package fractalGenerator.generator;
 
 import fractalGenerator.shapes.TriangleDrawer;
 import javafx.application.Platform;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -9,6 +10,7 @@ import javafx.scene.shape.Line;
 public abstract class FractalGenerator implements Runnable
 {
 	final Pane drawPane;
+	private final ScrollPane scrollDraw;
 	Class typ = TriangleDrawer.class;
 	int repeats;
 	private int startLength;
@@ -18,9 +20,10 @@ public abstract class FractalGenerator implements Runnable
 	double deg, degBias;
 	Color color = Color.WHITE;
 
-	FractalGenerator(Pane drawPane)
+	FractalGenerator(Pane field, ScrollPane scrollDraw)
 	{
-		this.drawPane = drawPane;
+		this.drawPane = field;
+		this.scrollDraw = scrollDraw;
 	}
 
 	@Override
@@ -46,7 +49,9 @@ public abstract class FractalGenerator implements Runnable
 			Platform.runLater(() -> drawPane.getChildren().add(temp));
 		}
 
-		Platform.runLater(() -> createFractal(startLength * falloff, x, y, i, 0));
+		createFractal(startLength * falloff, x, y, i, 0);
+
+		Platform.runLater(() -> scrollDraw.setContent(drawPane));
 	}
 
 	abstract void createFractal(double length, double x, double y, int i, int bias);

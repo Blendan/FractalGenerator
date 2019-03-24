@@ -66,9 +66,10 @@ public class Controller implements Initializable
 	{
 		scrollDraw.setVvalue(0);
 		scrollDraw.setHvalue(0);
+		scrollDraw.setContent(null);
 		try
 		{
-			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane).getGenerator(getTypGenerator());
+			FractalGenerator fractalGenerator = new GeneratorFactory(drawPane,scrollDraw).getGenerator(getTypGenerator());
 			fractalGenerator.setRepeats(getRepeats());
 			fractalGenerator.setDeg(getDeg());
 			fractalGenerator.setStartLength(getLength());

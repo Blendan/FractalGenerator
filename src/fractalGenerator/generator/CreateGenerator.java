@@ -4,6 +4,7 @@ import fractalGenerator.shapes.DrawerFactory;
 import fractalGenerator.shapes.ObjectDrawer;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ public class CreateGenerator extends FractalGenerator
 	private Point2D zero, left, right;
 	private ArrayList<CopySave> save;
 
-	CreateGenerator(Pane drawPane)
+	CreateGenerator(Pane field, ScrollPane scrollDraw)
 	{
-		super(drawPane);
+		super(field, scrollDraw);
 	}
+
 
 	@Override
 	void createFractal(double length, double x, double y, int i, int bias)
@@ -42,15 +44,13 @@ public class CreateGenerator extends FractalGenerator
 			if (i == makePositive(bias) && bias > 0)
 			{
 				right = temp.getPoint(1);
-				int finalI1 = i;
-				Platform.runLater(() -> createCopyFractal(temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI1, bias + 1));
+				createCopyFractal(temp.getPoint(1).getX(), temp.getPoint(1).getY(), i, bias + 1);
 			}
 			else if (i == makePositive(bias) && bias < 0 && temp.getListPoints().size() >= 3)
 			{
 				left = temp.getPoint(2);
 
-				int finalI2 = i;
-				Platform.runLater(() -> createCopyFractal(temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI2, bias - 1));
+				createCopyFractal(temp.getPoint(2).getX(), temp.getPoint(2).getY(), i, bias - 1);
 			}
 		}
 		else if (i < repeats)
@@ -58,11 +58,11 @@ public class CreateGenerator extends FractalGenerator
 
 			i++;
 			int finalI = i;
-			Platform.runLater(() -> createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1));
+			createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1);
 
 			if (temp.getListPoints().size() >= 3)
 			{
-				Platform.runLater(() -> createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI, bias - 1));
+				createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI, bias - 1);
 			}
 		}
 	}
@@ -81,14 +81,12 @@ public class CreateGenerator extends FractalGenerator
 			if (bias < 0)
 			{
 				left = new Point2D((left.getX() - zero.getX()) * 2 + zero.getX(), (left.getY() - zero.getY()) * 2 + zero.getY());
-				int finalI = i;
-				Platform.runLater(() -> createCopyFractal(left.getX(), left.getY(), finalI, bias - 1));
+				createCopyFractal(left.getX(), left.getY(), i, bias - 1);
 			}
 			else
 			{
 				right = new Point2D((right.getX() - zero.getX()) * 2 + zero.getX(), (right.getY() - zero.getY()) * 2 + zero.getY());
-				int finalI1 = i;
-				Platform.runLater(() -> createCopyFractal(right.getX(), right.getY(), finalI1, bias + 1));
+				createCopyFractal(right.getX(), right.getY(), i, bias + 1);
 			}
 		}
 	}

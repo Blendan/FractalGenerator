@@ -16,7 +16,7 @@ public abstract class ObjectDrawer
 	protected Color color;
 	protected int bias;
 
-	public ObjectDrawer(double x, double y, double length, Color color, double deg, double degBias, int bias, Pane drawPane)
+	ObjectDrawer(double x, double y, double length, Color color, double deg, double degBias, int bias, Pane drawPane)
 	{
 		this.x = x;
 		this.y = y;

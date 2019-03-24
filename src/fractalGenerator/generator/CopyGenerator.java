@@ -2,8 +2,8 @@ package fractalGenerator.generator;
 
 import fractalGenerator.shapes.DrawerFactory;
 import fractalGenerator.shapes.ObjectDrawer;
-import javafx.application.Platform;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -16,10 +16,11 @@ public class CopyGenerator extends FractalGenerator
 	private ArrayList<CopySave> save;
 	private boolean isMorThanOne = false;
 
-	CopyGenerator(Pane drawPane)
+	CopyGenerator(Pane field, ScrollPane scrollDraw)
 	{
-		super(drawPane);
+		super(field, scrollDraw);
 	}
+
 
 	@Override
 	void createFractal(double length, double x, double y, int i, int bias)
@@ -43,27 +44,25 @@ public class CopyGenerator extends FractalGenerator
 			if (i == makePositive(bias) && bias > 0)
 			{
 				right = temp.getPoint(1);
-				int finalI1 = i + 1;
-				Platform.runLater(() -> readyCopyFractal(false, finalI1));
+				readyCopyFractal(false, i + 1);
 			}
 			else if (i == makePositive(bias) && bias < 0 && temp.getListPoints().size() >= 3)
 			{
 				isMorThanOne = true;
 				left = temp.getPoint(2);
 
-				int finalI2 = i + 1;
-				Platform.runLater(() -> readyCopyFractal(true,  finalI2));
+				readyCopyFractal(true,  i + 1);
 			}
 		}
 		else if (i < repeats)
 		{
 			i++;
 			int finalI = i;
-			Platform.runLater(() -> createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1));
+			createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1);
 
 			if (temp.getListPoints().size() >= 3)
 			{
-				Platform.runLater(() -> createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI, bias - 1));
+				createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI, bias - 1);
 			}
 		}
 	}
@@ -90,10 +89,10 @@ public class CopyGenerator extends FractalGenerator
 
 			if(isMorThanOne)
 			{
-				Platform.runLater(() -> createCopyFractal(left.getX(), left.getY(), i + 1, -i - 1, temp));
+				createCopyFractal(left.getX(), left.getY(), i + 1, -i - 1, temp);
 			}
 
-			Platform.runLater(() -> createCopyFractal(right.getX(), right.getY(), i + 1, i + 1, temp));
+			createCopyFractal(right.getX(), right.getY(), i + 1, i + 1, temp);
 		}
 
 	}

@@ -8,11 +8,6 @@
 <?import javafx.scene.layout.Pane?>
 
 <BorderPane prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fractalGenerator.Controller">
-   <center>
-       <ScrollPane fx:id="scrollDraw" style="-fx-background: gray;" BorderPane.alignment="CENTER">
-           <Pane fx:id="drawPane" prefHeight="500" prefWidth="500" style="-fx-background-color: black;"/>
-       </ScrollPane>
-   </center>
    <bottom>
        <ScrollPane hbarPolicy="NEVER" prefHeight="60.0" prefWidth="200.0" style="-fx-background: black;" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
            <FlowPane prefHeight="50.0" prefWidth="1000.0" style="-fx-background-color: black;">
@@ -37,4 +32,10 @@
            </FlowPane>
        </ScrollPane>
    </bottom>
+   <center>
+       <ScrollPane fx:id="scrollDraw" style="-fx-background: gray;" BorderPane.alignment="CENTER">
+         <content>
+              <Pane fx:id="drawPane" prefHeight="500" prefWidth="500" style="-fx-background-color: black;" />
+         </content></ScrollPane>
+   </center>
 </BorderPane>
