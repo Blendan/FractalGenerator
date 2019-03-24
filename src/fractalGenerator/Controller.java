@@ -62,8 +62,8 @@ public class Controller implements Initializable
 		btnGenerate.setOnAction((e) -> startGenerating());
 		btnSave.setOnAction(event -> saveImage());
 
-		/*btnOptions.setOnAction(event -> startOptions());
-		scrollDraw.setOnScroll(this::zoom);
+		btnOptions.setOnAction(event -> startOptions());
+		/*scrollDraw.setOnScroll(this::zoom);
 		scrollDraw.setPannable(true);*/
 	}
 
