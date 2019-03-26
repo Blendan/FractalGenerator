@@ -34,8 +34,7 @@
    </bottom>
    <center>
        <ScrollPane fx:id="scrollDraw" style="-fx-background: gray;" BorderPane.alignment="CENTER">
-         <content>
-              <Pane fx:id="drawPane" prefHeight="500" prefWidth="500" style="-fx-background-color: black;" />
-         </content></ScrollPane>
+           <Pane fx:id="drawPane" prefHeight="500" prefWidth="500" style="-fx-background-color: black;"/>
+       </ScrollPane>
    </center>
 </BorderPane>
