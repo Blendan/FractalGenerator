@@ -1,1 +1,1 @@
-javapackager -deploy -native -outdir . -outfile FractalGenerator -srcdir . -srcfiles FractalGenerator.jar -appclass Main -name FractalGenerator
+javapackager -deploy -native -outdir . -outfile FractalGenerator -srcdir . -srcfiles FractalGenerator.jar -appclass fractalGenerator.Main -name FractalGenerator

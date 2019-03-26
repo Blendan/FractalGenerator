@@ -43,26 +43,30 @@ public class CopyGenerator extends FractalGenerator
 		{
 			if (i == makePositive(bias) && bias > 0)
 			{
+				if (temp.getListPoints().size() >= 3)
+				{
+					isMorThanOne = true;
+				}
 				right = temp.getPoint(1);
 				readyCopyFractal(false, i + 1);
 			}
 			else if (i == makePositive(bias) && bias < 0 && temp.getListPoints().size() >= 3)
 			{
 				isMorThanOne = true;
+				System.out.println("test");
 				left = temp.getPoint(2);
 
-				readyCopyFractal(true,  i + 1);
+				readyCopyFractal(true, i + 1);
 			}
 		}
 		else if (i < repeats)
 		{
 			i++;
-			int finalI = i;
-			createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), finalI, bias + 1);
+			createFractal(length * falloff, temp.getPoint(1).getX(), temp.getPoint(1).getY(), i, bias + 1);
 
 			if (temp.getListPoints().size() >= 3)
 			{
-				createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), finalI, bias - 1);
+				createFractal(length * falloff, temp.getPoint(2).getX(), temp.getPoint(2).getY(), i, bias - 1);
 			}
 		}
 	}
@@ -80,15 +84,16 @@ public class CopyGenerator extends FractalGenerator
 			isReadyRight = true;
 		}
 
-		if (isReadyLeft && isReadyRight||!isMorThanOne&&isReadyRight)
+		if (isReadyLeft && isReadyRight || !isMorThanOne && isReadyRight)
 		{
 			isReadyLeft = false;
 			isReadyRight = false;
 
 			ArrayList<CopySave> temp = getCopy();
 
-			if(isMorThanOne)
+			if (isMorThanOne)
 			{
+
 				createCopyFractal(left.getX(), left.getY(), i + 1, -i - 1, temp);
 			}
 
@@ -110,12 +115,12 @@ public class CopyGenerator extends FractalGenerator
 			if (i == makePositive(bias) && bias < 0 && left != null)
 			{
 				left = new Point2D((left.getX() - zero.getX()) * 2 + zero.getX(), (left.getY() - zero.getY()) * 2 + zero.getY());
-				readyCopyFractal(true,i);
+				readyCopyFractal(true, i);
 			}
 			else if (i == makePositive(bias) && bias > 0)
 			{
 				right = new Point2D((right.getX() - zero.getX()) * 2 + zero.getX(), (right.getY() - zero.getY()) * 2 + zero.getY());
-				readyCopyFractal(false,i);
+				readyCopyFractal(false, i);
 			}
 		}
 	}

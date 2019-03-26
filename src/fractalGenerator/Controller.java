@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -61,11 +63,11 @@ public class Controller implements Initializable
 		btnSave.setOnAction(event -> saveImage());
 
 		btnOptions.setOnAction(event -> startOptions());
-		//scrollDraw.setOnScroll(this::zoom);
+		/*scrollDraw.setOnScroll(this::zoom);
+		scrollDraw.setPannable(true);*/
 	}
 
 
-	@SuppressWarnings("unused")
 	private void zoom(ScrollEvent event)
 	{
 		event.consume();
