@@ -53,7 +53,6 @@ public class CopyGenerator extends FractalGenerator
 			else if (i == makePositive(bias) && bias < 0 && temp.getListPoints().size() >= 3)
 			{
 				isMorThanOne = true;
-				System.out.println("test");
 				left = temp.getPoint(2);
 
 				readyCopyFractal(true, i + 1);
